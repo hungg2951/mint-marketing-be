@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ShopifyAuthService } from './shopify-auth.service';
+import { ShopifyAuthService } from '../shopify-auth.service';
 
 @Injectable()
 export class CustomerService {
