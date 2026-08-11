@@ -80,6 +80,35 @@ export class MailService {
     }
   }
 
+  async getTemplateDetail(templateId: string): Promise<any> {
+    try {
+      const response = await fetch(
+        `https://api.resend.com/templates/${templateId}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${this.apiKey}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `[MailService] Failed to fetch template detail (HTTP ${response.status}): ${errorText}`,
+        );
+        throw new Error(
+          `Failed to fetch template detail: HTTP ${response.status}: ${errorText}`,
+        );
+      }
+
+      return await response.json();
+    } catch (error: any) {
+      console.error(`[MailService] getTemplateDetail error: ${error.message}`);
+      throw error;
+    }
+  }
+
   async sendTemplateEmail(dto: SendTemplateEmailDto): Promise<any> {
     const { templateId, to, variables, subject } = dto;
 

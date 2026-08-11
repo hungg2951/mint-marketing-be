@@ -4,6 +4,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Param,
   Post,
 } from '@nestjs/common';
 import { MailService } from './mail.service';
@@ -40,6 +41,22 @@ export class MailController {
     } catch (error: any) {
       throw new HttpException(
         { success: false, error: error.message || 'Failed to fetch templates' },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get('templates/:id')
+  async getTemplateDetail(@Param('id') id: string) {
+    try {
+      const template = await this.mailService.getTemplateDetail(id);
+      return { success: true, data: template };
+    } catch (error: any) {
+      throw new HttpException(
+        {
+          success: false,
+          error: error.message || 'Failed to fetch template detail',
+        },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

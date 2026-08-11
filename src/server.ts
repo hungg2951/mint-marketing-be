@@ -12,6 +12,13 @@ async function bootstrap() {
 
   // Initialize server
   const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true,
+  });
+
   await app.listen(PORT);
 
   console.log(`🚀 Server running on port: ${PORT}`);
